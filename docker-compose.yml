@@ -47,7 +47,6 @@ services:
       - TZ=${TZ}
     ports:
       - "8080:8080"
-      - "8443:8443"
 
   zabbix-agent:
     image: zabbix/zabbix-agent:latest # ホスト監視用エージェント
@@ -59,18 +58,18 @@ services:
       - ZBX_SERVER_HOST=${ZBX_SERVER_HOST}
       - TZ=${TZ}
 
-  cloudflared:
-    image: cloudflare/cloudflared
-    command:
-      - tunnel
-      - --no-autoupdate
-      - run
-    environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-      - TUNNEL_TRANSPORT_PROTOCOL=${TUNNEL_TRANSPORT_PROTOCOL}
-    restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
+   caddy:
+    image: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy/data:/data
+      - ./caddy/config:/config
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

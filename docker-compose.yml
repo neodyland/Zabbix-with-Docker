@@ -65,7 +65,7 @@ services:
     networks:
       - default
 
-   caddy:
+  caddy:
     image: caddy
     ports:
       - 80:80

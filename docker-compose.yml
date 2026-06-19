@@ -9,6 +9,8 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
       - ./postgres:/var/lib/postgresql/data
+    networks:
+      - default
 
   zabbix-server:
     image: zabbix/zabbix-server-pgsql:latest # PostgreSQL サポート版
@@ -23,9 +25,10 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - TZ=${TZ}
       - ZBX_STARTIPMIPOLLERS=3 # IPMI Pollerの数
-
     ports:
       - "10051:10051"
+    networks:
+      - default
 
   zabbix-web:
     image: zabbix/zabbix-web-nginx-pgsql:latest # Nginx + PostgreSQL
@@ -47,6 +50,8 @@ services:
       - TZ=${TZ}
     ports:
       - "8080:8080"
+    networks:
+      - default
 
   zabbix-agent:
     image: zabbix/zabbix-agent:latest # ホスト監視用エージェント
@@ -57,6 +62,8 @@ services:
     environment:
       - ZBX_SERVER_HOST=${ZBX_SERVER_HOST}
       - TZ=${TZ}
+    networks:
+      - default
 
    caddy:
     image: caddy

@@ -1,7 +1,0 @@
-dns.i.neody.ad.jp {
-    reverse_proxy zabbix-web:8080
-
-    basic_auth {
-        neody $2a$14$ShbOjMFAjO5/WzFix4sl2.E.hEVl4c475cVKFlyWGTVlDZnkPwJ7i
-    }
-}
